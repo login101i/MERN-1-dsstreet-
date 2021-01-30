@@ -32,15 +32,15 @@ module.exports = (err, req, res, next) => {
             error = new ErrorHandler(message, 400)
         }
 
-        // Handling Mongoose duplicate key errors
+        // Handling Mongoose duplicate key errors np kiedy będziemy chcieli zarejestrować użytkownika o takim samym adresie email. A w modelu mamy to, że email musi być unikalny.
         if (err.code === 11000) {
-            const message = `Zduplikowany ${Object.keys(err.keyValue)} entered`
+            const message = `Zduplikowany ${Object.keys(err.keyValue)}. Nie można powtarzać koleżko :) `
             error = new ErrorHandler(message, 400)
         }
 
         // Handling wrong JWT error
         if (err.name === 'JsonWebTokenError') {
-            const message = 'JSON Web Token wygasł. Spróbuj ponownie'
+            const message = 'JSON Web Token wygasł lub jest nieprawidłowy (pewnie to drugie). Spróbuj ponownie'
             error = new ErrorHandler(message, 400)
         }
 

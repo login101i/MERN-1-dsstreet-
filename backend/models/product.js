@@ -103,11 +103,11 @@ const productSchema = new mongoose.Schema({
             timestamps: true,
         }
     ],
-    // user: {
-    //     type: ObjectId,
-    //     ref: 'User',
-    //     required: true
-    // },
+    user: {
+        type: ObjectId,
+        ref: 'User',
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

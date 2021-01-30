@@ -1,11 +1,15 @@
 const Product = require('../models/product')
 
-const ErrorHandler=require("../utils/ErrorHandler")
-const catchAsynchErrors=require("../middlewares/catchAsyncErrors")
+const ErrorHandler = require("../utils/ErrorHandler")
+const catchAsynchErrors = require("../middlewares/catchAsyncErrors")
+const APIFeatures = require("../utils/apiFeatures")
 
 
 // Create new product   =>   /api/v1/admin/product/new
-exports.newProduct =catchAsynchErrors(async (req, res, next) => {
+exports.newProduct = catchAsynchErrors(async (req, res, next) => {
+
+    // teraz dodaliśmy do modelu produktu user'a i możemy do req.body.user przypisać id użytkownika zalogowanego czyli req.user.id
+    req.body.user=req.user.id
 
     const product = await Product.create(req.body);
 
@@ -17,13 +21,24 @@ exports.newProduct =catchAsynchErrors(async (req, res, next) => {
 
 // Create new product   =>   /api/v1//products
 
-exports.getProducts = catchAsynchErrors( async (req, res, next) => {
+exports.getProducts = catchAsynchErrors(async (req, res, next) => {
 
-    const products = await Product.find()
+    const resPerPage = 4;
+    const productCount = await Product.countDocuments()
+
+    const apiFeatures = new APIFeatures(Product.find(), req.query)
+        .search()
+        .filter()
+        .pagination(resPerPage)
+
+
+    const products = await apiFeatures.query
+
 
     res.status(200).json({
         success: true,
         count: products.length,
+        numberOfProductsInDb: productCount,
         products
     })
 
@@ -37,7 +52,7 @@ exports.getSingleProduct = catchAsynchErrors(async (req, res, next) => {
     const product = await Product.findById(req.params.id)
 
     if (!product) {
-       return next(new ErrorHandler("Nie odnaleziono produktu", 404))
+        return next(new ErrorHandler("Nie odnaleziono produktu", 404))
     }
 
     res.status(200).json({
