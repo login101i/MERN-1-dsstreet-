@@ -9,6 +9,9 @@ const {
     getSingleProduct,
     updateProduct,
     deleteProduct,
+    createProductReview,
+    getProductReviews,
+    deleteReview
     
 } = require("../controllers/productControllers")
 
@@ -18,6 +21,13 @@ router.post('/admin/product/new', isAuthenticatedUser, authorizeRoles('admin'), 
 router.get('/product/:id', getSingleProduct)
 router.put('/admin/product/:id', isAuthenticatedUser, authorizeRoles('admin'),updateProduct)
 router.delete('/admin/product/:id', isAuthenticatedUser, authorizeRoles('admin'),deleteProduct)
+
+
+router.put('/review', isAuthenticatedUser, createProductReview)
+router.get('/reviews', isAuthenticatedUser, authorizeRoles('admin'), getProductReviews)
+router.delete('/review', isAuthenticatedUser, authorizeRoles('admin'), deleteReview)
+
+// params piszemy w adresie dodając :, ale już req.query już nie ..
 
 
 
