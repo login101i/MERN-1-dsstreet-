@@ -9,7 +9,7 @@ const APIFeatures = require("../utils/apiFeatures")
 exports.newProduct = catchAsynchErrors(async (req, res, next) => {
 
     // teraz dodaliśmy do modelu produktu user'a i możemy do req.body.user przypisać id użytkownika zalogowanego czyli req.user.id
-    req.body.user=req.user.id
+    req.body.user = req.user.id
 
     const product = await Product.create(req.body);
 
@@ -23,7 +23,7 @@ exports.newProduct = catchAsynchErrors(async (req, res, next) => {
 
 exports.getProducts = catchAsynchErrors(async (req, res, next) => {
 
-    const resPerPage = 4;
+    const resPerPage =8;
     const productCount = await Product.countDocuments()
 
     const apiFeatures = new APIFeatures(Product.find(), req.query)
@@ -34,13 +34,15 @@ exports.getProducts = catchAsynchErrors(async (req, res, next) => {
 
     const products = await apiFeatures.query
 
-
+setTimeout(()=>{
     res.status(200).json({
         success: true,
         count: products.length,
         numberOfProductsInDb: productCount,
         products
     })
+},4000)
+  
 
 })
 
@@ -144,7 +146,7 @@ exports.createProductReview = catchAsynchErrors(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        message:`Dodano opinię: ` + comment
+        message: `Dodano opinię: ` + comment
     })
 
 })
@@ -170,7 +172,7 @@ exports.deleteReview = catchAsynchErrors(async (req, res, next) => {
 
     const removedReview = product.reviews.find(review => review._id.toString() === req.query.id.toString())
     console.log(removedReview)
-    
+
 
     const reviews = product.reviews.filter(review => review._id.toString() !== req.query.id.toString());
     // cg A skąd wzieło się tutaj query.id???? Czy to jest to samo co query productId .... aha .. można dać ?productId=1111?id=
@@ -188,9 +190,9 @@ exports.deleteReview = catchAsynchErrors(async (req, res, next) => {
         runValidators: true,
         useFindAndModify: false
     })
-    
 
-  
+
+
 
     res.status(200).json({
         success: true,
