@@ -20,31 +20,35 @@ exports.newProduct = catchAsynchErrors(async (req, res, next) => {
 })
 
 // Create new product   =>   /api/v1//products
-
+// Get all products   =>   /api/v1/products?keyword=apple
 exports.getProducts = catchAsynchErrors(async (req, res, next) => {
 
-    const resPerPage =8;
-    const productCount = await Product.countDocuments()
+    const resPerPage = 4;
+    const productsCount = await Product.countDocuments();
 
     const apiFeatures = new APIFeatures(Product.find(), req.query)
         .search()
         .filter()
-        .pagination(resPerPage)
 
+    let products = await apiFeatures.query;
+    let filteredProductsCount = products.length;
 
-    const products = await apiFeatures.query
+    apiFeatures.pagination(resPerPage)
+    products = await apiFeatures.query;
 
-setTimeout(()=>{
-    res.status(200).json({
-        success: true,
-        count: products.length,
-        numberOfProductsInDb: productCount,
-        products
-    })
-},4000)
-  
+    setTimeout(() => {
+        res.status(200).json({
+            success: true,
+            productsCount,
+            resPerPage,
+            filteredProductsCount,
+            products
+        })
+    }, 400)
+
 
 })
+
 
 
 // Create new product   =>   /api/v1//product/:id
@@ -52,6 +56,7 @@ setTimeout(()=>{
 exports.getSingleProduct = catchAsynchErrors(async (req, res, next) => {
 
     const product = await Product.findById(req.params.id)
+    console.log(product)
 
     if (!product) {
         return next(new ErrorHandler("Nie odnaleziono produktu", 404))

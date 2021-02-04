@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Menu, Row, Col, Typography, Space, Button } from 'antd';
+import {Link} from 'react-router-dom'
 
 
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 
-const { Text, Link, Title } = Typography;
+const { Text, Title } = Typography;
 
 const { SubMenu } = Menu;
 
@@ -32,7 +33,10 @@ const MenuNavigation = () => {
                     <h6 className="pb-2">NOWOŚCI</h6>
                 </Menu.Item>
                 <Menu.Item key="men" >
-                    <h6 className="pb-2">ODZIEŻ MĘSKA</h6>
+                    <Link to='/menscollection'>
+   <h6 className="pb-2">ODZIEŻ MĘSKA</h6>
+                    </Link>
+                 
                 </Menu.Item>
 
                 <Menu.Item key="shoes" >

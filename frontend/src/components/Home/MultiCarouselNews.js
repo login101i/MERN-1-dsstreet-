@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import mensCarouselPictures from '../../data/mensCarouselPictures'
 import { Card } from 'antd';
 import Product from '../Product'
-import Loader from '../Loader'
+import Loader from '../layout/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 
 

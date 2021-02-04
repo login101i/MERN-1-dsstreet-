@@ -14,31 +14,36 @@ import {
 export const productsReducer = (state = { products: [] }, action) => {
     switch (action.type) {
         case ALL_PRODUCTS_REQUEST:
-            return{
-                loading:true,
-                products:[]
+            return {
+                loading: true,
+                products: []
             }
+
         case ALL_PRODUCTS_SUCCESS:
-            return{
+            return {
                 loading: false,
-                products:action.payload.products,
-                productsCount: action.payload.numberOfProductsInDb
+                products: action.payload.products,
+                productsCount: action.payload.productsCount,
+                resPerPage: action.payload.resPerPage,
+                filteredProductsCount: action.payload.filteredProductsCount
             }
+
+
         case ALL_PRODUCTS_FAIL:
             return {
                 loading: false,
                 error: action.payload
             }
-        case CLEAR_ERRORS
-:
+
+        case CLEAR_ERRORS:
             return {
-               ...state,
+                ...state,
                 error: null
             }
+
         default:
             return state;
     }
-
 }
 
 export const productDetailsReducer = (state = { product: {} }, action) => {

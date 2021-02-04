@@ -5,7 +5,7 @@ import mensCarouselPictures from '../../data/mensCarouselPictures'
 import { Card } from 'antd';
 import { useDispatch, useSelector } from 'react-redux'
 import Product from "../Product"
-import Loader from '../Loader'
+import Loader from '../layout/Loader'
 
 
 const { Meta } = Card;

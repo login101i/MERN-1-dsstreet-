@@ -1,17 +1,17 @@
 import React, { Fragment } from 'react'
 
-const Slider = () => {
+const Slider = ({ CarrouselHeight = "240", lgWidth="12", display="none"}) => {
     return (
         <>
             <div className="row">
-                <div className="col-sm-12 col-md-6 col-lg-12">
+                <div className={`col-sm-12 col-md-6 col-lg-${lgWidth}`}>
                     <div id="slides" className="carousel slide" data-ride="carousel">
                         <ul className="carousel-indicators">
                             <li data-target="#slides" data-slide-to="0" className="active"></li>
                             <li data-target="#slides" data-slide-to="1"></li>
                             <li data-target="#slides" data-slide-to="2"></li>
                         </ul>
-                        <div className="carousel-inner" style={{ maxHeight: '740px' }}>
+                        <div className="carousel-inner" style={{ maxHeight:`${CarrouselHeight}px` }}>
                             <div className="carousel-item active">
                                 <img
                                     className="img-fluid"
@@ -40,7 +40,7 @@ const Slider = () => {
                         </div>
                     </div>
                 </div>
-                <div className="d-lg-none d-md-block col-md-3">
+                <div className={`d-lg-${display} d-md-block col-md-3 `}>
 
 
                     <img
@@ -49,7 +49,7 @@ const Slider = () => {
                         style={{ maxHeight: '366px' }}
                     />
                 </div>
-                <div className="d-lg-none d-md-block col-md-3">
+                <div className={`d-lg-${display} d-md-block col-md-3 `}>
                     <img src="https://res.cloudinary.com/mckrus/image/upload/v1612188341/dsstreet/slider5_unrlm1.jpg" alt=""
                         style={{ maxHeight: '366px' }}
                     />

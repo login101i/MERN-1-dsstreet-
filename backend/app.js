@@ -9,10 +9,20 @@ const order=require('./routes/order')
 
 const cookieParser = require('cookie-parser')
 
+// Wpisujemy przy tworzeniu rejestracji użytkowniaka
+const bodyparser=require('body-parser')
+const fileUpload = require('express-fileupload')
+
+
 
 
 app.use(express.json())
 app.use(cookieParser())
+app.use(bodyparser.urlencoded({extended:true}))
+app.use(fileUpload());
+
+
+// ustawienia cloudinary przy Tworzeniu rejestracji użytkownika na frontcie
 
 
 app.use('/api/v1', products)

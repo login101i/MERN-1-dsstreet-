@@ -14,8 +14,10 @@ const SearchBox = ({ history }) => {
     }
 
     return (
+        <form onSubmit={submitHandler}>
+
         <div
-            className="form-outline   p-2 d-flex align-self-center"
+            className="form-outline p-2 d-flex align-self-center"
 
             style={{ border: "1px solid grey", borderRadius: "30px" }}
         >
@@ -23,7 +25,9 @@ const SearchBox = ({ history }) => {
                 style={{ border: "none" }}
                 type="search" id="form1" className="form-control shadow-none " placeholder="wyszukaj"
                 aria-label="Search"
-                onSubmit={submitHandler} >
+                onChange={(e)=>setKeyword(e.target.value)}
+                
+                 >
 
 
             </input>
@@ -32,6 +36,7 @@ const SearchBox = ({ history }) => {
 
 
         </div>
+        </form>
     )
 }
 

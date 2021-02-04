@@ -5,7 +5,6 @@ import 'antd/dist/antd.css';
 import { Provider } from 'react-redux'
 import store from './store'
 
-import { BrowserRouter } from 'react-router-dom'
 
 import { positions, transitions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
@@ -18,11 +17,9 @@ const options = {
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
       <AlertProvider template={AlertTemplate} {...options}>
         <App />
       </AlertProvider>
-    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );

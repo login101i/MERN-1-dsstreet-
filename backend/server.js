@@ -4,6 +4,10 @@ const connectDatabase=require("./config/database")
 const dotenv=require('dotenv')
 const colors=require("colors")
 
+const cloudinary = require('cloudinary')
+
+
+
 dotenv.config({path:'backend/config/config.env'})
 
 
@@ -19,6 +23,13 @@ process.on('uncaughtException', err => {
 
 // Connecting to database
 connectDatabase()
+
+// Wpisujemy gdy tworzymy komponenty na frontEndzie
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 
 

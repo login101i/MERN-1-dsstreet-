@@ -9,15 +9,22 @@ const crypto = require('crypto')
 
 
 
+const cloudinary = require('cloudinary');
+
+
+
+
 
 // Register a user   => /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
-    // const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    //     folder: 'avatars',
-    //     width: 150,
-    //     crop: "scale"
-    // })
+    const result = await cloudinary.uploader.upload(req.body.avatar, {
+        folder: 'avatars',
+        width: 150,
+        crop: "scale"
+    })
+
+    console.log(result)
 
     const { name, email, password } = req.body;
 
@@ -26,8 +33,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         email,
         password,
         avatar: {
-            public_id: 'samples%2Fpeople%2Fboy-snow-hoodie/transform',
-            url: 'https://cloudinary.com/console/c-5c1588252438e9204f1a324ddf5288/media_library/asset/image%2Fupload%2Fsamples%2Fpeople%2Fboy-snow-hoodie/transform'
+            public_id: result.public_id,
+            url: result.secure_url
         }
     })
 
@@ -90,7 +97,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-        return next(new ErrorHandler('Nie znaleziono użytkownika o takim email.', 404));
+        return next(new ErrorHandler('Nie znaleziono użytkownika. Podaj email.', 404));
     }
 
     // Get reset token
@@ -98,7 +105,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     // Create reset password url
-    const resetUrl = `${req.protocol}://${req.get('host')}/password/reset/${resetToken}`;
+    const resetUrl = `${process.env.FRONT_END_URL}/password/reset/${resetToken}`;
 
     const message = `Twój token resetujący hasło jest następujący:\n\n${resetUrl}\n\n Jeśli nie chciałeś otrzymać tej wiadomości, po prostu zignoruj ją.`
 
@@ -140,7 +147,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
         resetPasswordToken,
         resetPasswordExpire: { $gt: Date.now() }
     })
-    
+
     if (!user) {
         return next(new ErrorHandler('Hasło resetujące jest nieprawidłowe lub Twój token wygasł', 400))
     }
@@ -183,7 +190,7 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler('Stare hasło jest nieprawidłowe.', 400));
     }
 
-    user.password = req.body.oldPassword;
+    user.password = req.body.newPassword;
     await user.save();
 
     sendToken(user, 200, res)
@@ -198,35 +205,36 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         email: req.body.email
     }
 
-    // Update avatar
-    // if (req.body.avatar !== '') {
-    //     const user = await User.findById(req.user.id)
+    // Aktualizacja avatara
+    if (req.body.avatar !== '') {
+        const user = await User.findById(req.user.id)
 
-    //     const image_id = user.avatar.public_id;
-    //     const res = await cloudinary.v2.uploader.destroy(image_id);
+        const image_id = user.avatar.public_id;
+        const res = await cloudinary.uploader.destroy(image_id);
 
-    //     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    //         folder: 'avatars',
-    //         width: 150,
-    //         crop: "scale"
-    //     })
+        const result = await cloudinary.uploader.upload(req.body.avatar, {
+            folder: 'avatars',
+            width: 150,
+            crop: "scale"
+        })
 
-    //     newUserData.avatar = {
-    //         public_id: result.public_id,
-    //         url: result.secure_url
-    //     }
-    // }
-    
+        newUserData.avatar = {
+            public_id: result.public_id,
+            url: result.secure_url
+        }
+    }
+
     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
         new: true,
         runValidators: true,
         useFindAndModify: false
     })
+    console.log("hihihihiihh")
 
-res.status(200).json({
-    success: true,
-    message:"Pomyślnie zaktualizowano dane użytkownika"
-})
+    res.status(200).json({
+        success: true
+
+    })
 })
 
 
@@ -237,11 +245,11 @@ res.status(200).json({
 // Get all users   =>   /api/v1/admin/users
 exports.allUsers = catchAsyncErrors(async (req, res, next) => {
     const users = await User.find();
-    const usersInDb=users.length
+    const usersInDb = users.length
 
     res.status(200).json({
         success: true,
-        liczbaUżytkowników:usersInDb,
+        liczbaUżytkowników: usersInDb,
         users
     })
 })
@@ -278,7 +286,7 @@ exports.updateUser = catchAsyncErrors(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        updatedUser:user
+        updatedUser: user
     })
 })
 
@@ -298,6 +306,6 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        deletedUser:user
+        deletedUser: user
     })
 })
