@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import './App.css';
 
@@ -23,50 +23,87 @@ import UpdatePassword from './components/user/UpdatePassword'
 import ForgotPassword from './components/user/ForgotPassword'
 import NewPassword from './components/user/NewPassword'
 import Cart from './components/cart/Cart'
+import Shipping from './components/cart/Shipping'
+import ConfirmOrder from './components/cart/ConfirmOrder'
+import Payment from './components/cart/Payment'
+import axios from 'axios'
+
+
+
+// Payment
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 
 
 function App() {
-
+  const [stripeApiKey, setStripeApiKey] = useState('');
 
   useEffect(() => {
-
     store.dispatch(loadUser())
 
-  })
+    async function getStripeApiKey() {
+      const { data } = await axios.get('/api/v1/stripeapi');
+      console.log('To jest stripeApi')
+      console.log(data)
 
+      setStripeApiKey(data.stripeApiKey)
+    }
+
+    getStripeApiKey();
+
+  }, [])
 
   return (
     <main>
       <Router>
-        <Header />
+        <div className="stylWithoutStipe">
+          <Header />
 
-        <MenuNavigation />
-        <Route path="/" component={Home} exact />
-        <Route path="/search/:keyword" component={CollectionPage} />
-        <Route path="/product/:id" component={ProductDetails} exact />
+          <MenuNavigation />
+          <Route path="/" component={Home} exact />
+          <Route path="/search/:keyword" component={CollectionPage} />
+          <Route path="/product/:id" component={ProductDetails} exact />
 
-        <Route path="/menscollection" component={CollectionPage} exact />
-        <Route path="/login" component={Login} exact />
-        <Route path="/register" component={Register} exact />
-        <ProtectedRoute path="/me" component={Profile} exact />
-        <ProtectedRoute path="/update/me" component={UpdateProfile} exact />
-        <ProtectedRoute path="/password/update" component={UpdatePassword} exact />
+          <Route path="/menscollection" component={CollectionPage} exact />
+          <Route path="/login" component={Login} exact />
+          <Route path="/register" component={Register} exact />
+          <ProtectedRoute path="/me" component={Profile} exact />
+          <ProtectedRoute path="/update/me" component={UpdateProfile} exact />
+          <ProtectedRoute path="/password/update" component={UpdatePassword} exact />
 
-        <Route
-          path="/password/forgot"
-          component={ForgotPassword}
-          exact />
-        <Route
-          path="/password/reset/:token"
-          component={NewPassword}
-          exact />
-        <Route
-          path="/cart"
-          component={Cart}
-          exact />
+          <Route
+            path="/password/forgot"
+            component={ForgotPassword}
+            exact />
+          <Route
+            path="/password/reset/:token"
+            component={NewPassword}
+            exact />
+          <Route
+            path="/cart"
+            component={Cart}
+            exact />
+          <ProtectedRoute
+            path="/shipping"
+            component={Shipping}
+            exact />
+          <ProtectedRoute
+            path="/order/confirm"
+            component={ConfirmOrder}
+            exact />
+
+        </div>
+
+        {stripeApiKey &&
+          <Elements stripe={loadStripe(stripeApiKey)}>
+            <ProtectedRoute path="/payment" component={Payment} />
+          </Elements>
+        }
+
+
       </Router>
-     
-     
+
+
 
 
     </main >

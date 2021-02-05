@@ -219,12 +219,7 @@ const SubscriptionForm = () => {
                 </Menu>
                 <div className="bg-light pl-4 py-2 mt-4">
                     <span style={{ color: 'grey' }} >
-                        Informujemy, że Współadministratorami Państwa danych osobowych są D-TEX sp. z o.o. z siedzibą w Wieluniu (98-300) przy ul. Jana Długosza 5 oraz Grzegorz Drop prowadzący działalność gospodarczą pod firmą Grzegorz Drop F.H. „Milano” z siedzibą w Wieluniu (98-300), przy ul. Jana Długosza 5. Współadministratorzy przetwarzają dane osobowe zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (ogólne rozporządzenie o ochronie danych, RODO). Mają Państwo prawo do wglądu do swoich danych osobowych, w tym uzyskania ich kopii, prawo do sprostowania, przenoszenia, żądania usunięcia lub ograniczenia ich przetwarzania, a także prawo do wniesienia sprzeciwu wobec przetwarzania danych przez Współadministratorów i prawo do wniesienia skargi organu nadzorczego - Prezesa Urzędu Ochrony Danych Osobowych.
-            </span>
-                </div>
-                <div className="bg-light pl-4 py-2 mt-3">
-                    <span style={{ color: 'grey' }} >
-                        Więcej na temat przetwarzania danych osobowych znajdą Państwo w klauzuli informacyjnej – Kliknij tutaj aby przejśc do strony
+                        * Wyrażenie zgody na przesyłanie Newslettera, wymaga wyrażenia zgody na przekazywanie przez sklep internetowy dstreet.pl, Newslettera na podany adres e-mail lub numer telefonu za pośrednictwem moich urządzeń telekomunikacyjnych, w szczególności takich jak laptop, telefon, smartfon zgodnie z art. 172 ust. 1 ustawy z dnia 16 lipca 2004 r. Prawo telekomunikacyjne oraz zgody na otrzymywanie informacji handlowych zgodnie z art. 10 ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną.
             </span>
                 </div>
 

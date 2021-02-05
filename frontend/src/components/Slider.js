@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-const Slider = ({ CarrouselHeight = "240", lgWidth="12", display="none"}) => {
+const Slider = ({ CarrouselHeight = "550", lgWidth="12", display="none"}) => {
     return (
         <>
             <div className="row">
